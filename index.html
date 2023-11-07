@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Tracker Finanças</title>
+  </head>
+
+  <body>
+    <section id="display">
+      <div class="table">
+        <h1>Tracker de Gastos</h1>
+        <p>
+          Bem vindo, Caio! <br />
+          Seu saldo total é de : <span class="saldo-dinamico"> </span>
+        </p>
+      </div>
+      <div class="area-display-mensal">
+        <div class="infos2">
+          <p class="display-mes"></p>
+          <button class="btn-voltar-mes"><</button>
+          <button class="btn-alterar-mes">></button>
+          <div class="gasto-detalhado"></div>
+        </div>
+      </div>
+    </section>
+    <section id="formularios">
+      <div class="display-inserir-dados">
+        <div>
+          <form id="formulario">
+            <input type="text" id="descricao" placeholder="Descrição" />
+            <br />
+            <input type="number" id="valor" step="0.01" placeholder="Valor" />
+            <br />
+            <select id="categoria-transacao" class="select-custom">
+              <option value="" disabled selected>Categoria</option>
+              <option value="Salário">Salário</option>
+              <option value="Entrada-extra">Entrada Extra</option>
+              <option value="Fatura-Kenzie">Fatura Kenzie</option>
+              <option value="Fatura-externa">Fatura Externa</option>
+              <option value="Fatura-interna-(PF)">Fatura interna (PF)</option>
+              <option value="Fatura-interna-(PJ)">Fatura interna (PJ)</option>
+              <option value="Gastos-extras">Gastos extras</option>
+            </select>
+            <select id="tipo-transacao" class="select-custom">
+              <option value="" disabled selected>Tipo</option>
+              <option value="entrada">Entrada</option>
+              <option value="despesa">Despesa</option>
+            </select>
+            <button
+              type="button"
+              class="btn-adicionar"
+              onclick="adicionarTransacaoComDescricao()"
+            >
+              Inserir Dados
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+    <section id="graficos">
+      <div class="area-display-graficos">
+        <h1>Gastos Totais</h1>
+        <button class="btn-voltar-grafico"><</button>
+        <button class="btn-alterar-grafico">></button>
+        <canvas id="grafico-dinamico"> </canvas>
+      </div>
+    </section>
+    <script src="script.js"></script>
+  </body>
+  <footer>
+    <div></div>
+  </footer>
+</html>
