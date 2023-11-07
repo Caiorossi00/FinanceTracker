@@ -13,8 +13,7 @@
 //   backgroundInfo2.classList.add("light-mode-table2");
 //   backgroundInfo3.classList.add("light-mode-inserir-dados");
 // }
-
-let contador = 0;
+let contador = JSON.parse(localStorage.getItem("contador")) || 0;
 
 const transacoes = JSON.parse(localStorage.getItem("transacoes")) || [];
 const dataMeses = JSON.parse(localStorage.getItem("transacoesData")) || {
@@ -234,6 +233,7 @@ function passarMes() {
   const alterarMes = document.querySelector(".display-mes");
   if (contador < 11) {
     contador++;
+    localStorage.setItem("contador", JSON.stringify(contador));
     alterarMes.innerText = chaves[contador];
     exibirTransacoes();
   }
@@ -246,6 +246,7 @@ function voltarMes() {
   const alterarMes = document.querySelector(".display-mes");
   if (contador > 0) {
     contador--;
+    localStorage.setItem("contador", JSON.stringify(contador));
     alterarMes.innerText = chaves[contador];
     exibirTransacoes();
   }
