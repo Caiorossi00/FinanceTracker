@@ -271,6 +271,7 @@ function deletarTransacao(index) {
   exibirTransacoes();
 
   localStorage.setItem("transacoesData", JSON.stringify(dataMeses));
+  localStorage.setItem("transacoes", JSON.stringify(transacoes));
 }
 
 // Gráficos
