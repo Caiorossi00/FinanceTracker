@@ -32,7 +32,6 @@ body {
     height: 11rem;
     width: 24rem;
     background: #da9dff;
-    border-radius: 10px;
     padding: 2rem;
 }
 
@@ -67,8 +66,7 @@ body {
     height: 12rem;
     width: 14rem;
     background: #da9dff;
-    border-radius: 10px;
-    margin-top: -18rem;
+    margin-top: -15rem;
     padding: 2rem;
 }
 
@@ -76,17 +74,14 @@ body {
     color: rgb(85, 44, 44);
     border: none;
     width: 7rem;
-    border-radius: 3px;
 }
 
 input {
     color: black;
     width: 8rem;
-    border-radius: 2px;
     padding: 0.5rem;
     border: none;
     margin-top: 0.3px;
-    border-radius: 3px;
     
 }
 
@@ -96,7 +91,6 @@ select {
     padding: 0.4rem;
     margin-top: 1px;
     border: none;
-    border-radius: 3px;
 
 }
 
@@ -113,6 +107,8 @@ select {
     color: black;
     transition: 0.6s ease;
 }
+
+
 /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
 
 
@@ -131,11 +127,7 @@ select {
   }
 
 .vitrine::-webkit-scrollbar-thumb {
-    background: #888; /* Cor de fundo da alça da barra de rolagem /
-    border-radius: 6px; / Borda arredondada da alça da barra de rolagem */
-  }
-.vitrine::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Cor de fundo da trilha da barra de rolagem */
+    background: #888; 
   }
 
 .div-icones {
@@ -168,10 +160,9 @@ select {
 }
 
 .area-display-mensal {
-    height: 35rem;
+    height: 32rem;
     width: 70rem;
     background: #FBF7FF;
-    border-radius: 10px;
     margin-left: 2rem;
 }
 
@@ -190,7 +181,6 @@ select {
     margin-top: -4.5rem;
     background-color: #9747ff;
     color: white;
-    border-radius: 4px;
     border-color: #9747ff;
     font-size: 1.5rem;
 }
@@ -235,7 +225,20 @@ select {
     text-decoration-color: rgb(156, 144, 144);
 }
 
+.divEmpty {
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0 0 95px;   
+    font-size: 1.2rem;
+}
 
+.contentEmpty {
+    color: #343a40;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 34px;
+    margin-bottom: 20px;
+}
   
 /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
 
@@ -245,9 +248,8 @@ select {
     height: 16rem;
     width: 66rem;
     background: #FBF7FF;
-    border-radius: 10px;
     margin-left: 30rem;
-    margin-top: 4rem;
+    margin-top: 0.6rem;
     padding: 2rem;
 }
 
@@ -260,7 +262,6 @@ select {
     width: 3rem;
     background-color: #9747ff;
     color: white;
-    border-radius: 4px;
     border-color: #9747ff;
     font-size: 1.5rem;
     margin-left: 56.8rem;
@@ -271,7 +272,6 @@ select {
     width: 3rem;
     background-color: #9747ff;
     color: white;
-    border-radius: 4px;
     border-color: #9747ff;
     font-size: 1.5rem;
     margin-left: 52.8rem;

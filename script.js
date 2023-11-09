@@ -92,11 +92,28 @@ function atualizarSaldo() {
 
 atualizarSaldo();
 
-function Transacao(descricao, valor, tipo, opcao) {
-  this.descricao = descricao;
-  this.valor = valor;
-  this.tipo = tipo;
-  this.option = opcao;
+class Transacao {
+  constructor(id, descricao, valor, tipo, opcao) {
+    this.id = id;
+    this.descricao = descricao;
+    this.valor = valor;
+    this.tipo = tipo;
+    this.option = opcao;
+  }
+}
+
+function gerarIdAleatorio(comprimento) {
+  const caracteres =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const caracteresArray = Array.from(caracteres);
+  const idArray = new Array(comprimento);
+
+  for (let i = 0; i < comprimento; i++) {
+    const indiceAleatorio = Math.floor(Math.random() * caracteresArray.length);
+    idArray[i] = caracteresArray[indiceAleatorio];
+  }
+
+  return idArray.join("");
 }
 
 function adicionarTransacaoComDescricao() {
@@ -132,6 +149,7 @@ function adicionarTransacaoComDescricao() {
   }
 
   const transacao = new Transacao(
+    gerarIdAleatorio(12),
     descricao,
     valor,
     tipoTransacao.value,
@@ -160,6 +178,34 @@ function exibirTransacoes() {
   const ul = document.createElement("ul");
   ul.classList.add("vitrine");
   ul.innerHTML = "";
+
+  const divEmpty = document.createElement("div");
+  const contentEmpty = document.createElement("span");
+  contentEmpty.textContent =
+    "Você ainda não possui nenhum lançamento no mês de " + chaves[contador];
+  contentEmpty.classList.add("contentEmpty");
+  const imgEmpty = document.createElement("img");
+  imgEmpty.src =
+    "https://cdn.discordapp.com/attachments/1136745071404924938/1171901768955875458/nothingInTracker.png?ex=655e5d92&is=654be892&hm=f513376bd5139fbe8a97f8af935c9c20b891e50210a57bbc1eeae734647f4758&";
+  imgEmpty.alt = "Tracker Vazio";
+  imgEmpty.style.height = "100px";
+  imgEmpty.style.marginBottom = "25px";
+
+  const imgEmptyT = document.createElement("img");
+  imgEmptyT.src =
+    "https://cdn.discordapp.com/attachments/1136745071404924938/1171901768955875458/nothingInTracker.png?ex=655e5d92&is=654be892&hm=f513376bd5139fbe8a97f8af935c9c20b891e50210a57bbc1eeae734647f4758&";
+  imgEmptyT.alt = "Tracker Vazio";
+  imgEmptyT.style.height = "100px";
+
+  divEmpty.classList.add("divEmpty");
+  divEmpty.appendChild(contentEmpty);
+  divEmpty.appendChild(imgEmpty);
+  divEmpty.appendChild(imgEmptyT);
+
+  if (!dataMeses[chaves[contador]].length) {
+    ul.appendChild(divEmpty);
+  }
+
   dataMeses[chaves[contador]].forEach((transacao, index) => {
     const li = document.createElement("li");
     const deleteButton = document.createElement("button");
@@ -167,7 +213,7 @@ function exibirTransacoes() {
     deleteButton.classList.add("botao-excluir");
 
     deleteButton.onclick = function () {
-      deletarTransacao(index);
+      deletarTransacao(transacao.id, index);
     };
 
     const content = document.createElement("span");
@@ -256,20 +302,19 @@ const btnVoltarMes = document.querySelector(".btn-voltar-mes");
 btnVoltarMes.addEventListener("click", voltarMes);
 
 // Delete
-function deletarTransacao(index) {
-  const transacaoExcluida = dataMeses[chaves[contador]][index];
+function deletarTransacao(identidadeTransacao, indexMes) {
+  dataMeses[chaves[contador]].splice(indexMes, 1);
 
-  if (transacaoExcluida.tipo === "entrada") {
-    saldoTotal -= transacaoExcluida.valor;
-  } else {
-    saldoTotal += transacaoExcluida.valor;
+  const indiceTransacao = transacoes.findIndex(
+    (objeto) => objeto.id === identidadeTransacao
+  );
+
+  if (indiceTransacao !== -1) {
+    transacoes.splice(indiceTransacao, 1);
   }
 
-  dataMeses[chaves[contador]].splice(index, 1);
-  transacoes.splice(index, 1);
-
-  atualizarSaldo();
   exibirTransacoes();
+  atualizarSaldo();
 
   localStorage.setItem("transacoesData", JSON.stringify(dataMeses));
   localStorage.setItem("transacoes", JSON.stringify(transacoes));
@@ -293,7 +338,7 @@ const data = {
 };
 
 const config = {
-  type: "bar",
+  type: "pie",
   data: data,
   options: {
     scales: {
