@@ -37,6 +37,8 @@ Versão 2.0:
 
 Link: <a href="https://caiorossi00.github.io/WiseWealth/">Wise Wealth</a>
 
+<br>
+
 <div align="center">
   <img src="https://github.com/Caiorossi00/WiseWealth/blob/master/assets/WW.png?raw=true" alt="Wise Wealth Logo" width="300"/>
 </div>
