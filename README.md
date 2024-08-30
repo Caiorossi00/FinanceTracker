@@ -35,11 +35,13 @@ Versão 2.0: <br>
   <li>Oferecimento de suporte para reporte de erros</li>
 </ul>
 
-Link: <a href="https://caiorossi00.github.io/WiseWealth/">Wise Wealth</a>
 
 <hr>
 <br>
 
 <div align="center">
-  <img src="https://github.com/Caiorossi00/WiseWealth/blob/master/assets/WW.png?raw=true" alt="Wise Wealth Logo" width="300"/>
+  <img src="https://github.com/Caiorossi00/WiseWealth/blob/master/assets/WW.png?raw=true" alt="Wise Wealth Logo" width="300"/> <br>
+  Link: <a href="https://caiorossi00.github.io/WiseWealth/">Wise Wealth</a>
+
 </div>
+
