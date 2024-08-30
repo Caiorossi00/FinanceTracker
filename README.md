@@ -1,7 +1,7 @@
 <h1>Tracker de finanças</h1>
 
-Projeto Inicial: Finance Tracker - Um aplicativo para organizar os gastos dividos em diversas categorias, com um display mensal dos gastos e um saldo total dinâmico.<br>
-Esse é um projeto desenvolvido sob demanda. O Finance Tracker é um aplicativo destinado a simplificar a organização financeira, permitindo que os usuários gerenciem e visualizem seus gastos mensais de maneira eficiente. Com um foco central na experiência do usuário, o aplicativo oferece uma abordagem intuitiva para categorizar despesas, exibindo um saldo total em tempo real para uma compreensão clara da situação financeira.
+Projeto Inicial: Wise Wealth - Um aplicativo para organizar os gastos dividos em diversas categorias, com um display mensal dos gastos e um saldo total dinâmico.<br>
+Esse é um projeto desenvolvido sob demanda. O Wise Wealth é um aplicativo destinado a simplificar a organização financeira, permitindo que os usuários gerenciem e visualizem seus gastos mensais de maneira eficiente. Com um foco central na experiência do usuário, o aplicativo oferece uma abordagem intuitiva para categorizar despesas, exibindo um saldo total em tempo real para uma compreensão clara da situação financeira.
 
 Destaques e Aprendizados: <br>
 <ol>
@@ -22,12 +22,21 @@ Datas Importantes:
 <ul>
   <li>Início: 24/10/2023</li>
   <li>Conclusão: 10/11/2023</li><br>
+  <li>Lançamento da versão 2.0</li>
 </ul>
 
-Possíveis Revisões Futuras: <br>
-Inserção de uma página de autenticação para capturar o nome do usuário<br>
-Gerar o gráfico de maneira dinâmica <br>
-Responsividade <br>
-Novo layout <br>
+Versão 2.0:
+<ul>
+  <li>Novo Nome ao aplicativo</li>
+  <li>Nova logo</li>
+  <li>Nova UI</li>
+  <li>Refatoração HTML, CSS, Javascript</li>
+  <li>Modais explicativos</li>
+  <li>Oferecimento de suporte para reporte de erros</li>
+</ul>
 
-Link: <a href="https://caiorossi00.github.io/FinanceTracker/">FinanceTracker</a>
+Link: <a href="https://caiorossi00.github.io/WiseWealth/">Wise Wealth</a>
+
+<div align="center">
+  <img src="https://github.com/Caiorossi00/WiseWealth/blob/master/assets/WW.png?raw=true" alt="Wise Wealth Logo" width="300"/>
+</div>
