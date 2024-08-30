@@ -35,7 +35,6 @@ Versão 2.0: <br>
   <li>Oferecimento de suporte para reporte de erros</li>
 </ul>
 
-
 <hr>
 <br>
 
