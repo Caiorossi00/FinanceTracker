@@ -21,7 +21,7 @@ Destaques e Aprendizados: <br>
 Datas Importantes: 
 <ul>
   <li>Início: 24/10/2023</li>
-  <li>Conclusão: 10/11/2023</li><br>
+  <li>Conclusão: 10/11/2023</li><
   <li>Lançamento da versão 2.0</li>
 </ul>
 
