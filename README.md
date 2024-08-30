@@ -12,8 +12,7 @@ Destaques e Aprendizados: <br>
   <li>Manipulação do DOM</li>
   <li>LocalStorage</li>
   <li>Tratamento de erros e validações</li>
-  <li>Cores dinâmicas para categorias diferentes</li>
-  <li>Uso de Chart.js (Comentado)</li>
+  <li>CSS dinâmico</li>
   <li>Organização de todas as etapas do projeto no trello</li>
   <li>Design desenvolvido com o uso do figma</li>
 </ol>
