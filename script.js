@@ -1,18 +1,3 @@
-// Dark mode
-
-// function lightMode() {
-//   const backgroundColor = document.querySelector("body");
-//   const buttonTexto = document.querySelector(".light-mode");
-//   const backgroundInfo1 = document.querySelector(".table");
-//   const backgroundInfo2 = document.querySelector(".table2");
-//   const backgroundInfo3 = document.querySelector(".inserir-dados");
-
-//   backgroundColor.classList.add("light-body");
-//   buttonTexto.innerHTML = "Dark mode";
-//   backgroundInfo1.classList.add("light-mode-table");
-//   backgroundInfo2.classList.add("light-mode-table2");
-//   backgroundInfo3.classList.add("light-mode-inserir-dados");
-// }
 let contador = JSON.parse(localStorage.getItem("contador")) || 0;
 
 const transacoes = JSON.parse(localStorage.getItem("transacoes")) || [];
@@ -43,7 +28,13 @@ function ordenarTransacoes(ordemTransacao) {
     "Gastos-extras": 7,
   };
 
-  return ordemTransacao.sort((a, b) => order[a.option] - order[b.option]);
+  return ordemTransacao.sort((a, b) => {
+    return (order[a.option] || 100) - (order[b.option] || 100);
+  });
+}
+
+function salvarNoLocalStorage(chave, valor) {
+  localStorage.setItem(chave, JSON.stringify(valor));
 }
 
 // CRUD
@@ -68,11 +59,7 @@ function adicionarTransacao() {
 function atualizarSaldo() {
   saldoTotal = 0;
   transacoes.forEach((it) => {
-    if (it.tipo === "entrada") {
-      saldoTotal = saldoTotal + it.valor;
-    } else {
-      saldoTotal = saldoTotal - it.valor;
-    }
+    saldoTotal += it.tipo === "entrada" ? it.valor : -it.valor;
   });
 
   const somaTotal = document.querySelector(".saldo-dinamico");
@@ -167,8 +154,8 @@ function adicionarTransacaoComDescricao() {
   atualizarSaldo();
   exibirTransacoes();
 
-  localStorage.setItem("transacoes", JSON.stringify(transacoes));
-  localStorage.setItem("transacoesData", JSON.stringify(dataMeses));
+  salvarNoLocalStorage("transacoes", transacoes);
+  salvarNoLocalStorage("transacoesData", dataMeses);
 }
 
 function exibirTransacoes() {
@@ -177,99 +164,82 @@ function exibirTransacoes() {
 
   const ul = document.createElement("ul");
   ul.classList.add("vitrine");
-  ul.innerHTML = "";
-
-  const divEmpty = document.createElement("div");
-  const contentEmpty = document.createElement("span");
-  contentEmpty.textContent =
-    "Você ainda não possui nenhum lançamento no mês de " + chaves[contador];
-  contentEmpty.classList.add("contentEmpty");
-  const imgEmpty = document.createElement("img");
-  imgEmpty.src =
-    "https://cdn.discordapp.com/attachments/1136745071404924938/1171901768955875458/nothingInTracker.png?ex=655e5d92&is=654be892&hm=f513376bd5139fbe8a97f8af935c9c20b891e50210a57bbc1eeae734647f4758&";
-  imgEmpty.alt = "Tracker Vazio";
-  imgEmpty.style.height = "100px";
-  imgEmpty.style.marginBottom = "25px";
-
-  const imgEmptyT = document.createElement("img");
-  imgEmptyT.src =
-    "https://cdn.discordapp.com/attachments/1136745071404924938/1171901768955875458/nothingInTracker.png?ex=655e5d92&is=654be892&hm=f513376bd5139fbe8a97f8af935c9c20b891e50210a57bbc1eeae734647f4758&";
-  imgEmptyT.alt = "Tracker Vazio";
-  imgEmptyT.style.height = "100px";
-
-  divEmpty.classList.add("divEmpty");
-  divEmpty.appendChild(contentEmpty);
-  divEmpty.appendChild(imgEmpty);
-  divEmpty.appendChild(imgEmptyT);
 
   if (!dataMeses[chaves[contador]].length) {
+    const divEmpty = criarElemento(
+      "div",
+      "divEmpty",
+      "Você ainda não possui nenhum lançamento no mês de " + chaves[contador]
+    );
     ul.appendChild(divEmpty);
+  } else {
+    dataMeses[chaves[contador]].forEach((transacao, index) => {
+      ul.appendChild(criarTransacaoItem(transacao, index));
+    });
   }
 
-  dataMeses[chaves[contador]].forEach((transacao, index) => {
-    const li = document.createElement("li");
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "x";
-    deleteButton.classList.add("botao-excluir");
+  infoTransacoes.appendChild(ul);
+  ordenarTransacoes(dataMeses[chaves[contador]]);
+}
 
-    deleteButton.onclick = function () {
-      deletarTransacao(transacao.id, index);
-    };
+function criarElemento(tag, classe, texto = "") {
+  const elemento = document.createElement(tag);
+  if (classe) elemento.classList.add(classe);
+  if (texto) elemento.textContent = texto;
+  return elemento;
+}
 
-    const content = document.createElement("span");
-    content.textContent = `${transacao.option.replace(/-/g, " ")} - ${
+function criarTransacaoItem(transacao, index) {
+  const li = criarElemento(
+    "li",
+    transacao.tipo === "entrada"
+      ? "gasto-detalhado-entrada"
+      : "gasto-detalhado-saida"
+  );
+
+  const deleteButton = criarElemento("button", "botao-excluir", "x");
+  deleteButton.onclick = () => deletarTransacao(transacao.id, index);
+
+  const content = criarElemento(
+    "span",
+    null,
+    `${transacao.option.replace(/-/g, " ")} - ${
       transacao.descricao
     }, ${transacao.valor.toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL",
-    })}`;
+    })}`
+  );
 
-    const iconeFlecha = document.createElement("span");
-    iconeFlecha.textContent = "";
-    iconeFlecha.classList.add("arrow");
+  const iconeFlecha = criarElemento("span", "arrow");
+  changeBackgroundColor(iconeFlecha, transacao.option);
 
-    const iconesDisplay = document.createElement("div");
-    iconesDisplay.classList.add("div-icones");
+  const iconesDisplay = criarElemento("div", "div-icones");
+  iconesDisplay.append(iconeFlecha, content);
 
-    iconesDisplay.appendChild(iconeFlecha);
-    iconesDisplay.appendChild(content);
-    li.appendChild(iconesDisplay);
-    li.appendChild(deleteButton);
-    ul.appendChild(li);
+  li.append(iconesDisplay, deleteButton);
 
-    changeBackgroundColor(iconeFlecha, transacao.option);
-
-    if (transacao.tipo === "entrada") {
-      li.classList.add("gasto-detalhado-entrada");
-      li.classList.remove("gasto-detalhado-saida");
-    } else {
-      li.classList.add("gasto-detalhado-saida");
-      li.classList.remove("gasto-detalhado-entrada");
-    }
-  });
-  infoTransacoes.appendChild(ul);
-  ordenarTransacoes(dataMeses[chaves[contador]]);
+  return li;
 }
 
 exibirTransacoes();
 
 function changeBackgroundColor(lista, categoria) {
-  if (categoria === "Salário") {
-    lista.style.borderBottom = `12px solid #ffcc00`;
-  } else if (categoria === "Entrada-extra") {
-    lista.style.borderBottom = `12px solid #99ccff`;
-  } else if (categoria === "Fatura-Kenzie") {
-    lista.style.borderBottom = `12px solid #ff9999`;
-  } else if (categoria === "Fatura-externa") {
-    lista.style.borderBottom = `12px solid #66cc99`;
-  } else if (categoria === "Fatura-interna-(PF)") {
-    lista.style.borderBottom = `12px solid #ff66cc`;
-  } else if (categoria === "Fatura-interna-(PJ)") {
-    lista.style.borderBottom = `12px solid #9966cc`;
-  } else if (categoria === "Gastos-extras") {
-    lista.style.borderBottom = `12px solid #cc9966`;
+  const colorMap = {
+    Salário: "#00BF63",
+    "Entrada-extra": "#00BF63",
+    "Fatura-Kenzie": "#FF5757",
+    "Fatura-externa": "#FF5757",
+    "Fatura-interna-(PF)": "#FF5757",
+    "Fatura-interna-(PJ)": "#FF5757",
+    "Gastos-extras": "#FF5757",
+  };
+
+  const color = colorMap[categoria];
+
+  if (color) {
+    lista.style.borderBottom = `12px solid ${color}`;
   }
-  console.log(transacoes);
 }
 
 const alterarMes1 = document.querySelector(".display-mes");
@@ -279,7 +249,7 @@ function passarMes() {
   const alterarMes = document.querySelector(".display-mes");
   if (contador < 11) {
     contador++;
-    localStorage.setItem("contador", JSON.stringify(contador));
+    salvarNoLocalStorage("contador", contador);
     alterarMes.innerText = chaves[contador];
     exibirTransacoes();
   }
@@ -292,7 +262,7 @@ function voltarMes() {
   const alterarMes = document.querySelector(".display-mes");
   if (contador > 0) {
     contador--;
-    localStorage.setItem("contador", JSON.stringify(contador));
+    salvarNoLocalStorage("contador", contador);
     alterarMes.innerText = chaves[contador];
     exibirTransacoes();
   }
@@ -316,88 +286,58 @@ function deletarTransacao(identidadeTransacao, indexMes) {
   exibirTransacoes();
   atualizarSaldo();
 
-  localStorage.setItem("transacoesData", JSON.stringify(dataMeses));
-  localStorage.setItem("transacoes", JSON.stringify(transacoes));
+  salvarNoLocalStorage("transacoesData", dataMeses);
+  salvarNoLocalStorage("transacoes", transacoes);
 }
 
-// Gráficos
-const ctx = document.getElementById("grafico-dinamico");
+// Modal
+document.addEventListener("DOMContentLoaded", function () {
+  const howToUseModal = document.getElementById("how-to-use-modal");
+  const privacyPolicyModal = document.getElementById("privacy-policy-modal");
+  const termsOfUseModal = document.getElementById("terms-of-use-modal");
 
-const cores = ["#ffcc00", "#99ccff", "#ff9999", "#66cc99"];
+  const openModal = (modal) => {
+    modal.style.display = "block";
+  };
 
-const data = {
-  labels: ["Salário", "Entrada extra", "Contas", "Lazer"],
-  datasets: [
-    {
-      label: "# of Votes",
-      data: [22, 18, 12, 5],
-      borderWidth: 4,
-      backgroundColor: cores,
-    },
-  ],
-};
+  const closeModal = (modal) => {
+    modal.style.display = "none";
+  };
 
-const config = {
-  type: "pie",
-  data: data,
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-  },
-};
+  document.getElementById("how-to-use-link").onclick = function () {
+    openModal(howToUseModal);
+    return false;
+  };
 
-new Chart(ctx, config);
+  document.getElementById("close-how-to-use").onclick = function () {
+    closeModal(howToUseModal);
+  };
 
-// let indiceGrafico = 0;
+  document.getElementById("privacy-policy-link").onclick = function () {
+    openModal(privacyPolicyModal);
+  };
 
-// const graficos = [];
+  document.getElementById("close-privacy").onclick = function () {
+    closeModal(privacyPolicyModal);
+  };
 
-// const ctx = document.getElementById("grafico-dinamico").getContext("2d");
+  document.getElementById("terms-of-use-link").onclick = function () {
+    openModal(termsOfUseModal);
+  };
 
-// function exibirGrafico(indice) {
-//   const graficoAtual = graficos[indice];
-//   new Chart(ctx, {
-//     type: "bar",
-//     data: {
-//       labels: graficoAtual.labels,
-//       datasets: [
-//         {
-//           label: graficoAtual.label,
-//           data: graficoAtual.data,
-//         },
-//       ],
-//     },
-// //   });
-// }
+  document.getElementById("close-terms").onclick = function () {
+    closeModal(termsOfUseModal);
+  };
 
-// function voltarGrafico() {
-//   if (indiceGrafico > 0) {
-//     indiceGrafico--;
-//     atualizarGrafico();
-//   }
-// }
-
-// function passarGrafico() {
-//   if (indiceGrafico < graficos.length - 1) {
-//     indiceGrafico++;
-//     atualizarGrafico();
-//   }
-// }
-
-// function atualizarGrafico() {
-//   if (Chart.instances.length > 0) {
-//     Chart.instances[0].destroy();
-//   }
-//   exibirGrafico(indiceGrafico);
-// }
-
-// exibirGrafico(indiceGrafico);
-
-// const btnVoltarGrafico = document.querySelector(".btn-voltar-grafico");
-// btnVoltarGrafico.addEventListener("click", voltarGrafico);
-
-// const btnAlterarGrafico = document.querySelector(".btn-alterar-grafico");
-// btnAlterarGrafico.addEventListener("click", passarGrafico);
+  window.onclick = function (event) {
+    if (event.target === howToUseModal) {
+      closeModal(howToUseModal);
+    }
+    if (event.target === privacyPolicyModal) {
+      closeModal(privacyPolicyModal);
+    }
+    if (event.target === termsOfUseModal) {
+      closeModal(termsOfUseModal);
+    }
+  };
+});
