@@ -18,14 +18,14 @@ Destaques e Aprendizados: <br>
   <li>Design desenvolvido com o uso do figma</li>
 </ol>
 
-Datas Importantes: 
+Datas Importantes: <br>
 <ul>
   <li>Início: 24/10/2023</li>
-  <li>Conclusão: 10/11/2023</li><
+  <li>Conclusão: 10/11/2023</li>
   <li>Lançamento da versão 2.0</li>
 </ul>
 
-Versão 2.0:
+Versão 2.0: <br>
 <ul>
   <li>Novo Nome ao aplicativo</li>
   <li>Nova logo</li>
@@ -37,6 +37,7 @@ Versão 2.0:
 
 Link: <a href="https://caiorossi00.github.io/WiseWealth/">Wise Wealth</a>
 
+<hr>
 <br>
 
 <div align="center">
